@@ -6,7 +6,7 @@
 FancyWrite::FancyWrite()
 	: hConsole{ GetStdHandle(STD_OUTPUT_HANDLE) }, originalConsoleForeground{ 15 }, CSBI{}
 {
-	SetConsoleScreenBufferSize(hConsole, COORD{ 100, 100 });
+	SetConsoleScreenBufferSize(hConsole, COORD{ 200, 200 });
 	// store current console color
 	if (GetConsoleScreenBufferInfo(hConsole, &CSBI)) {
 		originalConsoleForeground = CSBI.wAttributes;
@@ -56,7 +56,7 @@ void FancyWrite::writeRepeated(std::string text, unsigned int count, FancyColor 
 	SetConsoleTextAttribute(hConsole, lastColor);
 }
 
-std::string FancyWrite::writeWrapped(std::string text, char borderChar, FancyColor colorText, FancyColor colorBorder)
+void FancyWrite::writeWrapped(std::string text, char borderChar, FancyColor colorText, FancyColor colorBorder)
 {
 	// store current console color
 	WORD lastColor{ 15 };
@@ -68,7 +68,11 @@ std::string FancyWrite::writeWrapped(std::string text, char borderChar, FancyCol
 	std::string row{};
 	unsigned int maxRowLetters{ 0 };
 	for (unsigned int iLetter{ 0 }; iLetter < text.length(); iLetter++) {
-		row += text[iLetter];	
+		// store row characters into row except EOL
+		if (text[iLetter] != '\n') {
+			row += text[iLetter];
+		}
+		// store complete row when EOL or end of string
 		if (text[iLetter] == '\n' || iLetter == text.length() - 1) {
 			rows.push_back(row);
 			if (maxRowLetters < row.length()) {
@@ -79,34 +83,31 @@ std::string FancyWrite::writeWrapped(std::string text, char borderChar, FancyCol
 	}
 
 	// wrap text
-	std::string wrappedText{};
 	changeColor(colorBorder);
 	for (unsigned int iLetter{ 0 }; iLetter < maxRowLetters + 4; iLetter++) {
-		std::cout << borderChar;
+		std::cout << borderChar << std::flush;
 	}
-	std::cout << "\n";
+	std::cout << "\n" << std::flush;
 	for (unsigned int iRow{ 0 }; iRow < rows.size(); iRow++) {
-		std::cout << borderChar;
-		std::cout << " ";
+		std::cout << borderChar << std::flush;
+		std::cout << " " << std::flush;
 		changeColor(colorText);
 		for (unsigned int iLetter{ 0 }; iLetter < maxRowLetters; iLetter++) {
 			if (iLetter < rows[iRow].length()) {
-				std::cout << rows[iRow][iLetter];
+				std::cout << rows[iRow][iLetter] << std::flush;
 			}
 			else {
-				std::cout << " ";
+				std::cout << " " << std::flush;
 			}
 		}
-		std::cout << " ";
+		std::cout << " " << std::flush;
 		changeColor(colorBorder);
-		std::cout << borderChar;
-		std::cout << "\n";
+		std::cout << borderChar << std::flush;
+		std::cout << "\n" << std::flush;
 	}
 	for (unsigned int iLetter{ 0 }; iLetter < maxRowLetters + 4; iLetter++) {
-		std::cout << borderChar;
+		std::cout << borderChar << std::flush;
 	}
 	// set color to last color
 	SetConsoleTextAttribute(hConsole, lastColor);
-
-	return wrappedText;
 }
