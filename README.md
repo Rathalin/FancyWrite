@@ -8,7 +8,8 @@ Include the 3 files (FancyWrite.h, FancyWrite.cpp, FancyColor.h) in your project
 ## Features
 
 ### Change Color
-Changes the color for upcoming console outputs. Example:
+Changes the color for upcoming console outputs.
+Example:
 
 ``` cpp
 FancyWrite fancy{};
@@ -20,7 +21,7 @@ cout << "Such neon. Much wow." << endl;
 ![exampleWrite](https://github.com/Rhatalin/FancyWrite/blob/master/ExampleImages/FancyWrite_ChangeColor_Example1.PNG)
 
 ### Write
-Writes a string in color but resets the color to the previous.
+Writes a string in color but resets the color afterwards.
 Example:
 
 ``` cpp
@@ -31,6 +32,7 @@ fancy.write("Writing in green like a hacker in every 90's movie!", FancyColor::L
 
 ### Write Wrapped
 Writes a string to the console but with a border around.
+Example:
 
 ``` cpp
 FancyWrite fancy{};
@@ -39,7 +41,8 @@ fancy.writeWrapped("I'm in a border!", '+', FancyColor::LIGHTRED, FancyColor::LI
 ![exampleWrite](https://github.com/Rhatalin/FancyWrite/blob/master/ExampleImages/FancyWrite_WriteWrapped_Example1.PNG)
 
 ### Write Repeated
-Writes a string to the console multiple times. Example:
+Writes a string to the console multiple times.
+Example:
 
 ``` cpp
 FancyWrite fancy{};
