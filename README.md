@@ -8,15 +8,16 @@ Include the 3 files (FancyWrite.h, FancyWrite.cpp, FancyColor.h) in your project
 ## Features
 
 ### Change Color
-Changes the color for upcoming console outputs.
-Example:
+Changes the color for upcoming console outputs. Example:
 
 ``` cpp
 FancyWrite fancy{};
-fancy.changeColor(FancyColor::LIGHTRED);
-cout << "This text is red" << endl;
+fancy.changeColor(FancyColor::LIGHTVIOLET);
+cout << "I can write multiple lines " << flush;
+cout << "and the color stays the same!" << endl;
+cout << "Such neon. Much wow." << endl;
 ```
-Output: `This text is red` (in red, trust me).
+![exampleWrite](https://github.com/Rhatalin/FancyWrite/blob/master/ExampleImages/FancyWrite_ChangeColor_Example1.PNG)
 
 ### Write
 Writes a string in color but resets the color to the previous.
@@ -24,34 +25,27 @@ Example:
 
 ``` cpp
 FancyWrite fancy{};
-fancy.write("Blue Text", FancyColor::LIGHTBLUE);
+fancy.write("Writing in green like a hacker in every 90's movie!", FancyColor::LIGHTGREEN);
 ```
-Output: `Blue Text` (in blue).
+![exampleWrite](https://github.com/Rhatalin/FancyWrite/blob/master/ExampleImages/FancyWrite_Write_Example1.PNG)
 
 ### Write Wrapped
 Writes a string to the console but with a border around.
 
 ``` cpp
 FancyWrite fancy{};
-fancy.writeWrapped("I'm in a border!", '+', FancyColor::WHITE, FancyColor::GRAY);
+fancy.writeWrapped("I'm in a border!", '+', FancyColor::LIGHTRED, FancyColor::LIGHTYELLOW);
 ```
-Output:
-
-``` cpp
-+++++++++++++++++++
-+ I'm in a border +
-+++++++++++++++++++
-```
-(+ are white, text is gray).
+![exampleWrite](https://github.com/Rhatalin/FancyWrite/blob/master/ExampleImages/FancyWrite_WriteWrapped_Example1.PNG)
 
 ### Write Repeated
 Writes a string to the console multiple times. Example:
 
 ``` cpp
 FancyWrite fancy{};
-fancy.writeRepeated("-", 10, FancyColor::WHITE);
+fancy.writeRepeated("I like cyan!\n", 10, FancyColor::LIGHTCYAN);
 ```
-Output: `----------` (in white).
+![exampleWrite](https://github.com/Rhatalin/FancyWrite/blob/master/ExampleImages/FancyWrite_WriteRepeated_Example1.PNG)
 
 ## Contact
 
