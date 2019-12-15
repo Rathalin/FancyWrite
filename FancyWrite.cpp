@@ -68,10 +68,8 @@ std::string FancyWrite::writeWrapped(std::string text, char borderChar, FancyCol
 	std::string row{};
 	unsigned int maxRowLetters{ 0 };
 	for (unsigned int iLetter{ 0 }; iLetter < text.length(); iLetter++) {
-		if (text[iLetter] != '\n' && iLetter < text.length() - 1) {
-			row += text[iLetter];
-		}
-		else {
+		row += text[iLetter];	
+		if (text[iLetter] == '\n' || iLetter == text.length() - 1) {
 			rows.push_back(row);
 			if (maxRowLetters < row.length()) {
 				maxRowLetters = row.length();
