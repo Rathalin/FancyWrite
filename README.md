@@ -5,9 +5,9 @@ Fancy Write gives you the option to write to [Standard Output Stream](http://www
 
 Include [FancyWrite.h](https://github.com/Rhatalin/FancyWrite/blob/master/FancyWrite/FancyWrite/FancyWrite.h) in your project.
 Fancy Write uses the namespace `Fancy`, so you could use `using namespace Fancy;`.
-Then get the FancyWrite instance by the following:
+Get the FancyWrite instance by the following:
 ```cpp
-FancyWrite& fancy{ FancyWrite::getIncance() };
+FancyWrite& fancy{ FancyWrite::getInstance() };
 ```
 
 ## Features
