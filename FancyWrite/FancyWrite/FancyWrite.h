@@ -27,37 +27,43 @@ namespace Fancy {
 		WHITE = 15
 	};
 
-
 	class FancyWrite
 	{
 	public:
-		static void changeColor(FancyColor color)
+		FancyWrite(const FancyWrite&) = delete; // delete copy constructor
+		FancyWrite& operator=(FancyWrite const&) = delete;
+		~FancyWrite()
 		{
-			initInstance();
-			SetConsoleTextAttribute(FancyWrite::instance->hConsole, (int)color);
+			// set console color to original
+			SetConsoleTextAttribute(hConsole, originalConsoleForeground);
 		}
-		static void write(std::string text, FancyColor color)
+
+		void changeColor(FancyColor color)
 		{
-			initInstance();
+			SetConsoleTextAttribute(hConsole, (int)color);
+		}
+
+		void write(std::string text, FancyColor color)
+		{
 			// store current console color
 			WORD lastColor{ 15 };
-			if (GetConsoleScreenBufferInfo(FancyWrite::instance->hConsole, &FancyWrite::instance->CSBI)) {
-				lastColor = FancyWrite::instance->CSBI.wAttributes;
+			if (GetConsoleScreenBufferInfo(hConsole, &CSBI)) {
+				lastColor = CSBI.wAttributes;
 			}
 
 			changeColor(color);
 			std::cout << text << std::flush;
 
 			// set color to last color
-			SetConsoleTextAttribute(FancyWrite::instance->hConsole, lastColor);
+			SetConsoleTextAttribute(hConsole, lastColor);
 		}
-		static void writeRepeated(std::string text, unsigned int count, FancyColor color)
+
+		void writeRepeated(std::string text, unsigned int count, FancyColor color)
 		{
-			initInstance();
 			// store current console color
 			WORD lastColor{ 15 };
-			if (GetConsoleScreenBufferInfo(FancyWrite::instance->hConsole, &FancyWrite::instance->CSBI)) {
-				lastColor = FancyWrite::instance->CSBI.wAttributes;
+			if (GetConsoleScreenBufferInfo(hConsole, &CSBI)) {
+				lastColor = CSBI.wAttributes;
 			}
 
 			changeColor(color);
@@ -66,15 +72,15 @@ namespace Fancy {
 			}
 
 			// set color to last color
-			SetConsoleTextAttribute(FancyWrite::instance->hConsole, lastColor);
+			SetConsoleTextAttribute(hConsole, lastColor);
 		}
-		static void writeWrapped(std::string text, char borderChar, FancyColor colorText, FancyColor colorBorder)
+
+		void writeWrapped(std::string text, char borderChar, FancyColor colorText, FancyColor colorBorder)
 		{
-			initInstance();
 			// store current console color
 			WORD lastColor{ 15 };
-			if (GetConsoleScreenBufferInfo(FancyWrite::instance->hConsole, &FancyWrite::instance->CSBI)) {
-				lastColor = FancyWrite::instance->CSBI.wAttributes;
+			if (GetConsoleScreenBufferInfo(hConsole, &CSBI)) {
+				lastColor = CSBI.wAttributes;
 			}
 			// split text into rows and remember the maximum letter count in a row
 			std::vector<std::string> rows{};
@@ -122,9 +128,13 @@ namespace Fancy {
 				std::cout << borderChar << std::flush;
 			}
 			// set color to last color
-			SetConsoleTextAttribute(FancyWrite::instance->hConsole, lastColor);
+			SetConsoleTextAttribute(hConsole, lastColor);
 		}
-	private:
+		static FancyWrite& getInstance() {
+			return instance;
+		}
+
+	private:		
 		FancyWrite()
 			: hConsole{ GetStdHandle(STD_OUTPUT_HANDLE) }, originalConsoleForeground{ 15 }, CSBI{}
 		{
@@ -133,26 +143,14 @@ namespace Fancy {
 			if (GetConsoleScreenBufferInfo(hConsole, &CSBI)) {
 				originalConsoleForeground = CSBI.wAttributes;
 			}
-			FancyWrite::instance = this;
-		}
-		~FancyWrite()
-		{
-			// set console color to original
-			SetConsoleTextAttribute(hConsole, originalConsoleForeground);
-		}
-		static FancyWrite* instance;
-		static void initInstance()
-		{
-			if (!FancyWrite::instance) {
-				FancyWrite::instance = new FancyWrite();
-			}
 		}
 		HANDLE hConsole;
 		WORD originalConsoleForeground;
 		CONSOLE_SCREEN_BUFFER_INFO CSBI;
+		static FancyWrite instance;
 	};
 
-	FancyWrite* FancyWrite::instance{ nullptr };
+	FancyWrite FancyWrite::instance{};
 }
 
 #endif
