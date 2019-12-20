@@ -24,6 +24,17 @@ cout << "Such neon. Much wow." << endl;
 ```
 ![exampleWrite](https://github.com/Rhatalin/FancyWrite/blob/master/ExampleImages/FancyWrite_ChangeColor_Example1.PNG)
 
+### Get Current Color
+Returns the current color.
+Example:
+
+```cpp
+fancy.changeColor(FancyColor::YELLOW);
+FancyColor currentColor{ fancy.getCurrentColor() };
+```
+In this case `currentColor` will hold the value `FancyColor::YELLOW`.
+
+
 ### Write
 Writes a string in color but resets the color afterwards.
 Example:
