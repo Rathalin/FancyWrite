@@ -131,10 +131,12 @@ namespace Fancy {
 			SetConsoleTextAttribute(hConsole, lastColor);
 		}
 		static FancyWrite& getInstance() {
-			return instance;
+			//return instance;
+			static FancyWrite f{};
+			return f;
 		}
 
-	private:		
+	private:
 		FancyWrite()
 			: hConsole{ GetStdHandle(STD_OUTPUT_HANDLE) }, originalConsoleForeground{ 15 }, CSBI{}
 		{
@@ -147,10 +149,8 @@ namespace Fancy {
 		HANDLE hConsole;
 		WORD originalConsoleForeground;
 		CONSOLE_SCREEN_BUFFER_INFO CSBI;
-		static FancyWrite instance;
 	};
 
-	FancyWrite FancyWrite::instance{};
 }
 
 #endif
