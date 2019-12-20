@@ -31,7 +31,9 @@ namespace Fancy {
 	{
 	public:
 		FancyWrite(const FancyWrite&) = delete; // delete copy constructor
+
 		FancyWrite& operator=(FancyWrite const&) = delete;
+
 		~FancyWrite()
 		{
 			// set console color to original
@@ -134,6 +136,10 @@ namespace Fancy {
 			//return instance;
 			static FancyWrite f{};
 			return f;
+		}
+
+		FancyColor getCurrentColor() {
+			return static_cast<FancyColor>(static_cast<int>(CSBI.wAttributes));
 		}
 
 	private:
